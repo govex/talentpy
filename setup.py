@@ -9,7 +9,6 @@ setup(name='talentpy',
       license='',
       packages=['talentpy'],
       install_requires=[
-          'python-dotenv',
           'requests',
       ],
       zip_safe=False)
