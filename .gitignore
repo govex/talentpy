@@ -1,0 +1,8 @@
+*.egg-info
+*.pot
+*.py[co]
+**/*.pyc
+.tox/
+__pycache__
+.env
+*~
