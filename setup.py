@@ -8,4 +8,8 @@ setup(name='talentpy',
       author_email='benjamin.miller@jhu.edu',
       license='',
       packages=['talentpy'],
+      install_requires=[
+          'python-dotenv',
+          'requests',
+      ],
       zip_safe=False)
