@@ -2,6 +2,11 @@
 
 Python client library for [Talent LMS API](https://www.talentlms.com/pages/docs/TalentLMS-API-Documentation.pdf)
 
+### Installation
+
+This module is not submitted to PyPI. You can install direct from github with `pip install git+git://github.com/govex/talentpy` or by cloning the repo and running: `pip install -e .` from within the directory.
+
+
 ### Usage
 
 ~~~
