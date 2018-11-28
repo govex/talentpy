@@ -1,9 +1,11 @@
 import os
 import requests
+import pdb
 
 
 class Talent:
-    """TalentLMS client class"""
+    """TalentLMS client class
+    """
     
     def __init__(self,
                  apikey=os.environ.get('apikey'),
@@ -16,7 +18,7 @@ class Talent:
         """get all users"""
         url = 'https://{}:@{}.talentlms.com/api/v1/users'.format(self.apikey, self.domain)
         
-        response = requests.request("GET", url)
+        response = requests.request('GET', url)
 
         users = response.json()
         return(users)
@@ -26,7 +28,7 @@ class Talent:
         url = 'https://{}:@{}.talentlms.com/api/v1/users/id:{}'\
               .format(self.apikey, self.domain, user_id)
         
-        response = requests.request("GET", url)
+        response = requests.request('GET', url)
         if response.status_code != 200:
             raise TalentLMSError(response.json()['error']['message'])
 
@@ -37,7 +39,7 @@ class Talent:
         """get all courses"""
         url = 'https://{}:@{}.talentlms.com/api/v1/courses'.format(self.apikey, self.domain)
         
-        response = requests.request("GET", url)
+        response = requests.request('GET', url)
 
         courses = response.json()
         return(courses)
@@ -47,7 +49,7 @@ class Talent:
         url = 'https://{}:@{}.talentlms.com/api/v1/courses/id:{}'\
               .format(self.apikey, self.domain, course_id)
         
-        response = requests.request("GET", url)
+        response = requests.request('GET', url)
         if response.status_code != 200:
             raise TalentLMSError(response.json()['error']['message'])
         
@@ -116,7 +118,28 @@ class Talent:
                 answers_all.append(answers)
 
         return(answers_all)
-            
+
+    def get_branches(self):
+        """get all branches available"""
+        url = 'https://{}:@{}.talentlms.com/api/v1/branches'.format(self.apikey, self.domain)
+
+        response = requests.request('GET', url)
+        
+        branches = response.json()
+        return(branches)
+
+    def get_branch(self, branch_id):
+        """get a specific branch"""
+        url = 'https://{}:@{}.talentlms.com/api/v1/branches/id:{}'\
+              .format(self.apikey, self.domain, branch_id)
+
+        response = requests.request('GET', url)
+        if response.status_code != 200:
+            raise TalentLMSError(response.json()['error']['message'])
+        
+        branch = response.json()
+        return(branch)
+    
     
 
 class TalentLMSError(Exception):
