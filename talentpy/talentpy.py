@@ -1,5 +1,6 @@
 import os
 import requests
+import pandas as pd
 import pdb
 
 
@@ -139,13 +140,24 @@ class Talent:
         
         branch = response.json()
         return(branch)
-    
+
+    def get_statuses_df(self, course_ids):
+        """get user statuses for each course"""
+        statuses = pd.DataFrame(columns=['course_id', 'course_name', 'user_id', 'perc_comp'])
+        for cid in course_ids:
+            course = self.get_course(cid)
+            for user in course['users']:
+                if user['role'] == 'learner':
+                    row = {'course_id': course['id'],
+                           'course_name': course['name'],
+                           'user_id': user['id'],
+                           'perc_comp': user['completion_percentage'],
+                    }
+                    statuses = statuses.append(row, ignore_index=True)
+        return(statuses)
     
 
 class TalentLMSError(Exception):
     def __init__(self, error):
         Exception.__init__(self, error)
-
-    
-
 
