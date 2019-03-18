@@ -101,7 +101,10 @@ class Talent:
 
         answers_all = {}
         for course_id in course_ids:
-            course = self.get_course(course_id)
+            try:
+                course = self.get_course(course_id)
+            except TalentLMSError:
+                continue
 
             # get course roster
             users = [i['id']
