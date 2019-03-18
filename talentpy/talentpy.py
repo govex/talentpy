@@ -118,11 +118,13 @@ class Talent:
             if not surveys:
                 continue
 
+            answers = {}
             for survey in surveys:
                 if verbose:
                     print('Getting results for survey: {}'.format(survey))
-                answers = self.get_survey_responses(survey, users, verbose)
-                answers_all[course_id] = answers
+                answers[survey] = self.get_survey_responses(
+                    survey, users, verbose)
+            answers_all[course_id] = answers
 
         return(answers_all)
 
