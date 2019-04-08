@@ -59,6 +59,18 @@ class Talent:
         course = response.json()
         return(course)
 
+    def get_user_status_in_course(self, course_id, user_id):
+        """find a users progress in a given course"""
+        url = 'https://{}:@{}.talentlms.com/api/v1/getuserstatusincourse/course_id:{},user_id:{}'\
+              .format(self.apikey, self.domain, course_id, user_id)
+
+        response = requests.request('GET', url)
+        if response.status_code != 200:
+            raise TalentLMSError(response.json()['error']['message'])
+
+        progress = response.json()
+        return(progress)
+
     def get_survey_response(self, survey_id, user_id):
         """get survey answers for a given survey and user"""
         url = 'https://{}:@{}.talentlms.com/api/v1/getsurveyanswers/survey_id:{},user_id:{}'\
