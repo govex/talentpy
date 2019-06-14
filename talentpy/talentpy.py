@@ -21,6 +21,8 @@ class Talent:
             self.apikey, self.domain)
 
         response = requests.request('GET', url)
+        if response.status_code != 200:
+            raise TalentLMSError(response.json()['error']['message'])
 
         users = response.json()
         return(users)
@@ -177,6 +179,26 @@ class Talent:
                            }
                     statuses = statuses.append(row, ignore_index=True)
         return(statuses)
+
+    def gotocourse(self, user_id, course_id, export=None):
+        url = 'https://{}:@{}.talentlms.com/api/v1/gotocourse/user_id:{},course_id:{}'.format(
+            self.apikey, self.domain, user_id, course_id)
+
+        response = requests.request('GET', url)
+        if response.status_code != 200:
+            raise TalentLMSError(response.json()['error']['message'])
+
+        goto = response.json()['goto_url']
+
+        course_page = requests.request('GET', goto)
+
+        if not export:
+            return(course_page.text)
+        else:
+            html = open(export, 'w')
+            html.write(course_page.text)
+            html.close()
+            return(True)
 
 
 class TalentLMSError(Exception):
