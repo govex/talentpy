@@ -73,6 +73,30 @@ class Talent:
         progress = response.json()
         return(progress)
 
+    def get_timeline(self, event_type, course_id=None, user_id=None):
+        """get timeline for given event type
+        
+        event_type: required (see timeline event mappings for options https://www.talentlms.com/pages/docs/TalentLMS-API-Documentation.pdf)
+        course_id: optional
+        user_id: optional
+        """
+        
+        url = ('https://{}:@{}.talentlms.com/api/v1/gettimeline/event_type:{}'\
+               .format(self.apikey, self.domain, event_type))
+        if course_id:
+            url += ',course_id:{}'.format(course_id)
+        if user_id:
+            url += ',user_id:{}'.format(user_id)
+              
+        response = requests.request('GET', url)
+        if response.status_code != 200:
+            raise TalentLMSError(response.json()['error']['message'])
+
+        timeline = response.json()
+        return(timeline)
+
+
+    
     def get_survey_response(self, survey_id, user_id):
         """get survey answers for a given survey and user"""
         url = 'https://{}:@{}.talentlms.com/api/v1/getsurveyanswers/survey_id:{},user_id:{}'\
